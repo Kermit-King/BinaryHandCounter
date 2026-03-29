@@ -59,9 +59,9 @@ with HandLandmarker.create_from_options(options) as landmarker:
             decimal_out = sum(val * (2**(4-i)) for i, val in enumerate(binary_val))
 
             cv2.putText(frame, f'Binary: {binary_val}', (10, 70), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+                        cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2)
             cv2.putText(frame, f'Decimal: {decimal_out}', (10, 120), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 255, 0), 3)
+                        cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 3)
 
         cv2.imshow("Modern Hand Binary Counter", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
