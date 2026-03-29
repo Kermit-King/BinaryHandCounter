@@ -38,7 +38,7 @@ with HandLandmarker.create_from_options(options) as landmarker:
         result = landmarker.detect_for_video(mp_image, timestamp_ms)
 
         binary_val = [0, 0, 0, 0, 0]
-
+        # print(binary_val)
         if result.hand_landmarks:
             
             hand_lms = result.hand_landmarks[0]
@@ -46,15 +46,17 @@ with HandLandmarker.create_from_options(options) as landmarker:
             if hand_lms[17].x > hand_lms[3].x:
                 if hand_lms[4].x < hand_lms[3].x:
                     binary_val[0] = 1
+                for i in range(0, 4):
+                    if hand_lms[tip_ids[i]].y < hand_lms[tip_ids[i]-2].y:
+                        binary_val[i+1] = 1
             else:
                 if hand_lms[4].x > hand_lms[3].x:
-                    binary_val[0] = 1
+                    binary_val[-1] = 1
+                for i in range(0, 4):
+                    if hand_lms[tip_ids[i]].y < hand_lms[tip_ids[i]-2].y:
+                        binary_val[3-i] = 1
 
-            for i in range(0, 4):
-                if hand_lms[tip_ids[i]].y < hand_lms[tip_ids[i]-2].y:
-                    binary_val[i+1] = 1
-
-            decimal_out = sum(val * (2**i) for i, val in enumerate(binary_val))
+            decimal_out = sum(val * (2**(4-i)) for i, val in enumerate(binary_val))
 
             cv2.putText(frame, f'Binary: {binary_val}', (10, 70), 
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
