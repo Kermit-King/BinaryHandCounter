@@ -42,9 +42,13 @@ with HandLandmarker.create_from_options(options) as landmarker:
         if result.hand_landmarks:
             
             hand_lms = result.hand_landmarks[0]
-            
-            if hand_lms[4].x < hand_lms[3].x:
-                binary_val[0] = 1
+
+            if hand_lms[17].x > hand_lms[3].x:
+                if hand_lms[4].x < hand_lms[3].x:
+                    binary_val[0] = 1
+            else:
+                if hand_lms[4].x > hand_lms[3].x:
+                    binary_val[0] = 1
 
             for i in range(0, 4):
                 if hand_lms[tip_ids[i]].y < hand_lms[tip_ids[i]-2].y:
